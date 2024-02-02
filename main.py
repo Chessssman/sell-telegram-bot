@@ -30,19 +30,50 @@ async def send_welcome(message: types.Message):
    
 @dp.message_handler(Text(equals = "Просмотреть категории"))
 async def get_category(message: types.Message):
-    await message.answer("Выберите категорию:", reply_markup=keyboard.inline_kb)
+    await message.answer("Выберите категорию:", reply_markup=keyboard.main_inline_kb)
 
 
-@dp.inline_handler(lambda query: query.query == 'test_inline')
-async def process_inline_query(query: InlineQuery):
-    results = [
-        InlineQueryResultArticle(
-            id='1',
-            title='Test Article',
-            input_message_content=InputTextMessageContent(message_text='This is a test article.')
-        )
-    ]
-    await bot.answer_inline_query(query.id, results=results, cache_time=1)
+@dp.callback_query_handler(lambda c: c.data.startswith('computer_peripherals_data'))
+async def category_menu_change(callback_query: types.CallbackQuery):
+    await bot.edit_message_text(chat_id=callback_query.message.chat.id,
+                                message_id=callback_query.message.message_id,
+                                text="Выберите подкатегорию",
+                                reply_markup=keyboard.peripherals_kb)
+    
+@dp.callback_query_handler(lambda c: c.data.startswith('computer_accessories_data'))
+async def category_menu_change(callback_query: types.CallbackQuery):
+    await bot.edit_message_text(chat_id=callback_query.message.chat.id,
+                                message_id=callback_query.message.message_id,
+                                text="Выберите подкатегорию",
+                                reply_markup=keyboard.accessories_kb)
+
+@dp.callback_query_handler(lambda c: c.data.startswith('phone_pad_data'))
+async def category_menu_change(callback_query: types.CallbackQuery):
+    await bot.edit_message_text(chat_id=callback_query.message.chat.id,
+                                message_id=callback_query.message.message_id,
+                                text="Выберите подкатегорию",
+                                reply_markup=keyboard.mobile_kb)
+
+@dp.callback_query_handler(lambda c: c.data.startswith('e-cars_data'))
+async def category_menu_change(callback_query: types.CallbackQuery):
+    await bot.edit_message_text(chat_id=callback_query.message.chat.id,
+                                message_id=callback_query.message.message_id,
+                                text="Выберите подкатегорию",
+                                reply_markup=keyboard.e_cars_kb)
+    
+@dp.callback_query_handler(lambda c: c.data.startswith('bluetooth_data'))
+async def category_menu_change(callback_query: types.CallbackQuery):
+    await bot.edit_message_text(chat_id=callback_query.message.chat.id,
+                                message_id=callback_query.message.message_id,
+                                text="Выберите подкатегорию",
+                                reply_markup=keyboard.bluetooth_kb)
+    
+@dp.callback_query_handler(lambda c: c.data.startswith('back_to_main_data'))
+async def category_menu_change(callback_query: types.CallbackQuery):
+    await bot.edit_message_text(chat_id=callback_query.message.chat.id,
+                                message_id=callback_query.message.message_id,
+                                text="Выберите категорию:",
+                                reply_markup=keyboard.main_inline_kb)
 
 def get_greeting():
     now = datetime.datetime.now()
